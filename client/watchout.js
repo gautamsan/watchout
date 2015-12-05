@@ -1,7 +1,7 @@
 // start slingin' some d3 here.
 var options = {
-  height: 500,
-  width: 800,
+  height: document.documentElement.clientHeight,
+  width: document.documentElement.clientWidth,
   numOfEnemies: 30
 };
 
@@ -29,8 +29,8 @@ var createEnemies = function() {
   return enemies.map(function(val) {
     return {
       id: val,
-      x: Math.random() * options.width,
-      y: Math.random() * options.height
+      x: Math.random() * ((options.width - 60) - 60) + 60,
+      y: Math.random() * ((options.height - 60) - 60) + 60
     }
   });
   //put numOfEnemies items in the [enemies]
@@ -49,14 +49,29 @@ var placeEnemies = function(data) {
           .attr("cy", function(d) {
             return d.y;
           }).attr("r", function(d) {
-            return Math.random() * 40;
+            return Math.random() * 20 + 10;
           }).style("fill", function(d, i) {
             return createColor(i % 5);
           });
 };
 
+var moveEnemies = function(data) {
+  var enemies = gameBoard.selectAll(".enemy").data(data);
+  enemies.transition()
+          .attr("cx", function(d) {
+            return Math.random() * ((options.width-60) - 60) + 60;
+          })
+          .attr("cy", function(d) {
+            return Math.random() * ((options.height-60) - 60) + 60;
+          }).duration(2000)
+};
+
 var startGame = function() {
-  placeEnemies(createEnemies());
+  var enemy = createEnemies();
+  placeEnemies(enemy);
+  setInterval(function() {
+    moveEnemies(enemy)
+  }, 2000);
 }
 
 startGame();
