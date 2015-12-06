@@ -11,6 +11,18 @@ var gameBoard = d3.select("body").append("svg")
                   .attr("height", options.height)
                   .attr("class", "gameBoard");
 
+gameBoard.append('defs')
+         .append('pattern')
+         .attr('id', 'image')
+         .attr('height', 30)
+         .attr('width', 30)
+         .attr('viewbox', '0 0 80 80')
+         .append('image')
+         .attr('height', 30)
+         .attr('width', 30)
+         .attr('xlink:href', 'https://pbs.twimg.com/profile_images/378800000582523870/864798814676215c8e2ad3f94c50245e.jpeg');
+
+
 var createColor = function(idx) {
   var colors = ["#FF5733", "#FFBD33", "#DBFF33", "#33FFBD", "#33FCFF"];
   return colors[idx];
@@ -86,9 +98,9 @@ var placePlayer = function(data) {
           .attr("y", function(d) {
             return d.y;
           })
-          .attr("width", 30)
-          .attr("height", 30)
-          .style("fill", "black");
+          .attr("width", 35)
+          .attr("height", 35)
+          .attr("fill", "url(#image)");
 };
 
 var placeEnemies = function(data) {
@@ -100,12 +112,17 @@ var placeEnemies = function(data) {
           })
           .attr("cy", function(d) {
             return d.y;
-          }).attr("r", function(d) {
+          })
+          .attr("r", function(d) {
             return d.r;
-          }).style("fill", function(d, i) {
+          })
+          .style('fill', function(d, i) {
             return createColor(i % 5);
-          });
+          })
 };
+
+//color function
+/**/
 
 var moveEnemies = function(data) {
   var enemies = gameBoard.selectAll(".enemy").data(data);
