@@ -303,8 +303,8 @@ var countCollisions = function() {
 var throttleCollisions = throttle(countCollisions, 1000);
 
 var startGame = function() {                          
-  // placeEnemies(enemy);
-  // placePlayer(player);
+  placeEnemies(enemy);
+  placePlayer(player);
   dragPlayer(player);
   countCurrentScore();
 
